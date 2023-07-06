@@ -1,3 +1,18 @@
+<script setup>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+const comments = ref([]);
+
+onMounted(() => {
+  axios.get('api/comments')
+    .then(({ data }) => {
+      comments.value = data.data;
+    })
+    .catch(err => console.error(err))
+})
+</script>
+
 <template>
   <main class="pt-8 pb-16">
     <div class="flex justify-between px-4 mx-auto">
@@ -40,43 +55,21 @@
               <h2 class="text-lg font-bold text-gray-900">Discussion</h2>
             </div>
 
-            <article class="p-6 mb-4 text-base rounded-lg">
+            <article v-for="comment in comments" class="p-6 mb-4 text-base rounded-lg">
               <div class="flex justify-between items-center mb-2">
                 <div class="flex items-center">
                   <p class="inline-flex items-center mr-3 text-sm text-gray-900">
                     <img src="http://placeholder.co/40" alt="user image" class="mr-2 w-6 h-6 rounded-full">
-                    User name
+                    {{ comment.user }}
                   </p>
                   <p class="text-sm text-gray-600">
-                    <time datetime="2023-07-06">July 6, 2023</time>
+                    <time datetime="2023-07-06">{{ (new Date(comment.created_at)).toDateString() }}</time>
                   </p>
                 </div>
               </div>
 
               <p class="text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat culpa voluptate hic possimus facere quis
-                nostrum esse. Itaque, laudantium quod. Magnam ratione similique inventore tempora minus nulla impedit,
-                iste accusantium.
-              </p>
-            </article>
-
-            <article class="p-6 mb-6 text-base rounded-lg">
-              <div class="flex justify-between items-center mb-2">
-                <div class="flex items-center">
-                  <p class="inline-flex items-center mr-3 text-sm text-gray-900">
-                    <img src="http://placeholder.co/40" alt="user image" class="mr-2 w-6 h-6 rounded-full">
-                    User name
-                  </p>
-                  <p class="text-sm text-gray-600">
-                    <time datetime="2023-07-06">July 6, 2023</time>
-                  </p>
-                </div>
-              </div>
-
-              <p class="text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat culpa voluptate hic possimus facere quis
-                nostrum esse. Itaque, laudantium quod. Magnam ratione similique inventore tempora minus nulla impedit,
-                iste accusantium.
+                {{ comment.message }}
               </p>
             </article>
           </div>
