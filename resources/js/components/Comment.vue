@@ -3,8 +3,7 @@ import { ref } from 'vue';
 
 const props = defineProps(['comment']);
 const edditing = ref(false);
-const emit = defineEmits(['edited'])
-
+const emit = defineEmits(['modified'])
 
 function editComment(comment) {
   axios.put(`api/comments/${comment.id}`, {
@@ -12,7 +11,7 @@ function editComment(comment) {
   })
     .then(() => {
       edditing.value = false;
-      emit('edited');
+      emit('modified');
     })
     .catch(err => console.error(err))
 }
@@ -20,7 +19,7 @@ function editComment(comment) {
 function deleteComment(id) {
   axios.delete(`api/comments/${id}`)
     .then(() => {
-      getComments();
+      emit('modified');
     })
     .catch(err => console.error(err))
 }

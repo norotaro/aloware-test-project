@@ -62,7 +62,7 @@ onMounted(() => {
             </form>
 
             <template v-for="comment in comments">
-              <comment :comment="comment" @edited="getComments()"></comment>
+              <comment :comment="comment" @modified="getComments()"></comment>
             </template>
           </div>
         </section>
