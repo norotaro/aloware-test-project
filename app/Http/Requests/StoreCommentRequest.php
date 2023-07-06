@@ -24,6 +24,7 @@ class StoreCommentRequest extends FormRequest
         return [
             'user' => ['required', 'max:200'],
             'message' => ['required'],
+            'parent_id' => ['numeric'],
             'level' => ['numeric', 'between:1,3']
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,19 @@ class CommentFactory extends Factory
         return [
             'user' => fake()->name(),
             'message' => fake()->text(),
-            'level' => 1
         ];
+    }
+
+    function configure(): static
+    {
+        return $this->afterCreating(function (Comment $comment) {
+            if ($comment->level < 3) {
+                $repliesAmmount = fake()->numberBetween(1, 3);
+                Comment::factory($repliesAmmount)->create([
+                    'level' => $comment->level + 1,
+                    'parent_id' => $comment->id,
+                ]);
+            }
+        });
     }
 }

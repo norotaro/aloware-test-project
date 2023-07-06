@@ -14,7 +14,11 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return CommentResource::collection(Comment::orderBy('created_at', 'desc')->get());
+        $comments = Comment::orderBy('created_at', 'desc')
+            ->whereLevel(1)
+            ->with('comments')
+            ->get();
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -27,6 +31,8 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->user = $validated['user'];
         $comment->message = $validated['message'];
+        $comment->parent_id = $validated['parent_id'];
+        $comment->level = $validated['level'];
         $comment->save();
 
         return new CommentResource($comment);
