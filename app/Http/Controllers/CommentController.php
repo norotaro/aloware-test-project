@@ -45,7 +45,10 @@ class CommentController extends Controller
      */
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        $comment->message = $request->message;
+        $comment->save();
+
+        return new CommentResource($comment);
     }
 
     /**
