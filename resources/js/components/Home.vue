@@ -29,7 +29,7 @@ onMounted(() => {
               <h2 class="text-lg font-bold text-gray-900">Discussion</h2>
             </div>
 
-            <create-comment @created="getComments"></create-comment>
+            <create-comment @created="getComments" class="mb-4"></create-comment>
 
             <template v-for="comment in comments">
               <comment :comment="comment" @modified="getComments"></comment>

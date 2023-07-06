@@ -26,7 +26,7 @@ function deleteComment(id) {
 }
 </script>
 <template>
-  <article class="p-6 mb-4 text-base rounded-lg">
+  <article class="p-6 mb-4 text-base" :class="{ 'ml-6': comment.level == 2, 'border-t': comment.level == 1 }">
     <div class="flex justify-between items-center mb-2">
       <div class="flex items-center">
         <p class="inline-flex items-center mr-3 text-sm text-gray-900">
@@ -85,4 +85,6 @@ function deleteComment(id) {
       </button>
     </form>
   </article>
+
+  <comment v-for="child in comment.comments" :comment="child"></comment>
 </template>
