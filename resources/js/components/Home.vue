@@ -26,6 +26,14 @@ function createComment() {
     })
 }
 
+function deleteComment(id) {
+  axios.delete(`api/comments/${id}`)
+    .then(() => {
+      getComments();
+    })
+    .catch(err => console.error(err))
+}
+
 onMounted(() => {
   getComments();
 })
@@ -72,6 +80,11 @@ onMounted(() => {
                     <time datetime="2023-07-06">{{ (new Date(comment.created_at)).toDateString() }}</time>
                   </p>
                 </div>
+                <button @click="deleteComment(comment.id)"
+                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
+                  type="button">
+                  <span>Delete</span>
+                </button>
               </div>
 
               <p class="text-gray-500">
