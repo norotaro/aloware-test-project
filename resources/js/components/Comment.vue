@@ -26,7 +26,8 @@ function deleteComment(id) {
 }
 </script>
 <template>
-  <article class="p-6 mb-4 text-base" :class="{ 'ml-6': comment.level == 2, 'border-t': comment.level == 1 }">
+  <article class="p-6 mb-4 text-base"
+    :class="{ 'border-t': comment.level == 1, 'ml-6': comment.level == 2, 'ml-12': comment.level == 3 }">
     <div class="flex justify-between items-center mb-2">
       <div class="flex items-center">
         <p class="inline-flex items-center mr-3 text-sm text-gray-900">
@@ -67,7 +68,8 @@ function deleteComment(id) {
           Reply
         </button>
       </div>
-      <create-comment v-else @created="replying = false; $emit('modified');" class="mt-4"></create-comment>
+      <create-comment v-else :parent="comment" @created="replying = false; $emit('modified');"
+        @canceled="replying = false" class="mt-4"></create-comment>
     </template>
     <form v-else @submit.prevent="editComment(comment)">
       <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-200">
@@ -86,5 +88,5 @@ function deleteComment(id) {
     </form>
   </article>
 
-  <comment v-for="child in comment.comments" :comment="child"></comment>
+  <comment v-for="child in comment.comments" :comment="child" @modified="$emit('modified')"></comment>
 </template>

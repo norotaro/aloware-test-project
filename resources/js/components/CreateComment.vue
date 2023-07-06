@@ -1,20 +1,24 @@
 <script setup>
 import { ref } from 'vue';
 
+const props = defineProps(['parent']);
 const user = ref('');
 const message = ref('');
-const emit = defineEmits(['created']);
+const emit = defineEmits(['created', 'canceled']);
 
 function createComment() {
     axios.post('api/comments', {
         'user': user.value,
-        'message': message.value
+        'message': message.value,
+        'level': props.parent ? props.parent.level + 1 : 1,
+        'parent_id': props.parent ? props.parent.id : null
     })
         .then(() => {
             user.value = '';
             message.value = '';
             emit('created');
         })
+        .catch(err => console.error(err))
 }
 </script>
 <template>
@@ -31,8 +35,12 @@ function createComment() {
                 placeholder="Write a comment..." required></textarea>
         </div>
         <button type="submit"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
+            class="inline-flex items-center mr-2 py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
             Post comment
+        </button>
+        <button v-if="props.parent ? props.parent.level < 3 : false" type="button" @click="$emit('canceled')"
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
+            Cancel
         </button>
     </form>
 </template>

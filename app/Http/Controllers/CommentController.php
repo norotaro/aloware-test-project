@@ -16,7 +16,7 @@ class CommentController extends Controller
     {
         $comments = Comment::orderBy('created_at', 'desc')
             ->whereLevel(1)
-            ->with('comments')
+            ->with('comments.comments')
             ->get();
         return CommentResource::collection($comments);
     }
