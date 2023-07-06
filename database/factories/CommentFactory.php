@@ -19,7 +19,7 @@ class CommentFactory extends Factory
         return [
             'user' => fake()->name(),
             'message' => fake()->text(),
-            'level' => fake()->numberBetween(1, 3)
+            'level' => 1
         ];
     }
 }

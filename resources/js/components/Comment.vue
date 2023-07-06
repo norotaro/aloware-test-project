@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 const props = defineProps(['comment']);
 const edditing = ref(false);
+const replying = ref(false);
 const emit = defineEmits(['modified'])
 
 function editComment(comment) {
@@ -50,9 +51,24 @@ function deleteComment(id) {
       </div>
     </div>
 
-    <p v-if="!edditing" class="text-gray-500">
-      {{ comment.message }}
-    </p>
+    <template v-if="!edditing">
+      <p class="text-gray-500">
+        {{ comment.message }}
+      </p>
+      <div v-if="!replying" class="flex items-center mt-4 space-x-4">
+        <button v-if="comment.level < 3" @click="replying = true" type="button"
+          class="flex items-center text-sm text-gray-500 hover:underline">
+          <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+            </path>
+          </svg>
+          Reply
+        </button>
+      </div>
+      <create-comment v-else @created="replying = false; $emit('modified');" class="mt-4"></create-comment>
+    </template>
     <form v-else @submit.prevent="editComment(comment)">
       <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-200">
         <label for="comment" class="sr-only">Your comment</label>
