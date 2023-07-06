@@ -14,7 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return CommentResource::collection(Comment::orderBy('created_at')->get());
+        return CommentResource::collection(Comment::orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -22,7 +22,14 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $comment = new Comment();
+        $comment->user = $validated['user'];
+        $comment->message = $validated['message'];
+        $comment->save();
+
+        return new CommentResource($comment);
     }
 
     /**
