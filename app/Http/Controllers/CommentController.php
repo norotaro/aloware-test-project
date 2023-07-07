@@ -18,6 +18,7 @@ class CommentController extends Controller
             ->whereLevel(1)
             ->with('comments.comments')
             ->get();
+
         return CommentResource::collection($comments);
     }
 
