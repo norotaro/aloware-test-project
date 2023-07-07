@@ -2,20 +2,9 @@
 import { ref } from 'vue';
 
 const props = defineProps(['comment']);
-const edditing = ref(false);
+const editing = ref(false);
 const replying = ref(false);
-const emit = defineEmits(['modified'])
-
-function editComment(comment) {
-  axios.put(`api/comments/${comment.id}`, {
-    'message': comment.message
-  })
-    .then(() => {
-      edditing.value = false;
-      emit('modified');
-    })
-    .catch(err => console.error(err))
-}
+const emit = defineEmits(['modified']);
 
 function deleteComment(id) {
   axios.delete(`api/comments/${id}`)
@@ -38,21 +27,21 @@ function deleteComment(id) {
           <time datetime="2023-07-06">{{ (new Date(comment.created_at)).toDateString() }}</time>
         </p>
       </div>
-      <div v-if="!edditing" class="flex">
-        <button @click="edditing = true"
+      <div v-if="!editing" class="flex">
+        <button @click="editing = true"
           class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
           type="button">
           <span>Edit</span>
         </button>
         <button @click="deleteComment(comment.id)"
-          class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
+          class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
           type="button">
           <span>Delete</span>
         </button>
       </div>
     </div>
 
-    <template v-if="!edditing">
+    <template v-if="!editing">
       <p class="text-gray-500">
         {{ comment.message }}
       </p>
@@ -71,21 +60,8 @@ function deleteComment(id) {
       <create-comment v-else :parent="comment" @created="replying = false; $emit('modified');"
         @canceled="replying = false" class="mt-4"></create-comment>
     </template>
-    <form v-else @submit.prevent="editComment(comment)">
-      <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-200">
-        <label for="comment" class="sr-only">Your comment</label>
-        <textarea id="comment" rows="5" class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
-          required v-model="comment.message"></textarea>
-      </div>
-      <button type="submit"
-        class="inline-flex items-center mr-2 py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
-        Update comment
-      </button>
-      <button type="button" @click="edditing = false"
-        class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
-        Cancel
-      </button>
-    </form>
+    <edit-comment v-else :comment="comment" @modified="$emit('modified'); editing = false;"
+      @canceled="editing = false"></edit-comment>
   </article>
 
   <comment v-for="child in comment.comments" :comment="child" @modified="$emit('modified')"></comment>

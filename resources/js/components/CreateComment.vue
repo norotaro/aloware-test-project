@@ -39,7 +39,7 @@ function createComment() {
             Post comment
         </button>
         <button v-if="props.parent ? props.parent.level < 3 : false" type="button" @click="$emit('canceled')"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-cyan-500 rounded-lg">
+            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-500 rounded-lg">
             Cancel
         </button>
     </form>
