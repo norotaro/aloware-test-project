@@ -7,7 +7,7 @@ composer install
 npm install
 ```
 
-Then run the migrations and seeders
+Create the `.env` (can be copied from the `.env.example` file) file and then run the migrations and seeders.
 
 ```
 php artisan migrate --seed
