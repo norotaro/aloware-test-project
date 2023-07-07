@@ -1,4 +1,8 @@
 <script setup>
+import ShowComment from '@/components/ShowComment.vue';
+import CreateComment from '@/components/CreateComment.vue';
+import EditComment from '@/components/EditComment.vue';
+import DeleteComment from '@/components/DeleteComment.vue';
 import { ref } from 'vue';
 
 const props = defineProps(['comment']);
@@ -25,7 +29,7 @@ const emit = defineEmits(['modified']);
           type="button">
           <span>Edit</span>
         </button>
-        <delete-comment @deleted="$emit('modified')" :comment="comment"></delete-comment>
+        <DeleteComment @deleted="$emit('modified')" :comment="comment"></DeleteComment>
       </div>
     </div>
 
@@ -45,12 +49,13 @@ const emit = defineEmits(['modified']);
           Reply
         </button>
       </div>
-      <create-comment v-else :parent="comment" @created="replying = false; $emit('modified');"
-        @canceled="replying = false" class="mt-4"></create-comment>
+      <CreateComment v-else :parent="comment" @created="replying = false; $emit('modified');" @canceled="replying = false"
+        class="mt-4">
+      </CreateComment>
     </template>
-    <edit-comment v-else :comment="comment" @modified="$emit('modified'); editing = false;"
-      @canceled="editing = false"></edit-comment>
+    <EditComment v-else :comment="comment" @modified="$emit('modified'); editing = false;" @canceled="editing = false">
+    </EditComment>
   </article>
 
-  <comment v-for="child in comment.comments" :comment="child" @modified="$emit('modified')"></comment>
+  <ShowComment v-for="child in comment.comments" :comment="child" @modified="$emit('modified')"></ShowComment>
 </template>

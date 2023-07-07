@@ -1,5 +1,7 @@
 <script setup>
-import axios from 'axios';
+import Post from '@/components/Post.vue';
+import ShowComment from '@/components/ShowComment.vue';
+import CreateComment from '@/components/CreateComment.vue';
 import { onMounted, ref } from 'vue';
 
 const comments = ref([]);
@@ -21,7 +23,7 @@ onMounted(() => {
   <main class="pt-8 pb-16">
     <div class="flex justify-between px-4 mx-auto">
       <article class="mx-auto w-full max-w-2xl">
-        <post></post>
+        <Post></Post>
 
         <section class="py-8">
           <div class="max-w-2xl mx-auto px-4">
@@ -29,10 +31,10 @@ onMounted(() => {
               <h2 class="text-lg font-bold text-gray-900">Discussion</h2>
             </div>
 
-            <create-comment @created="getComments" class="mb-4"></create-comment>
+            <CreateComment @created="getComments" class="mb-4"></CreateComment>
 
             <template v-for="comment in comments">
-              <comment :comment="comment" @modified="getComments"></comment>
+              <ShowComment :comment="comment" @modified="getComments"></ShowComment>
             </template>
           </div>
         </section>
