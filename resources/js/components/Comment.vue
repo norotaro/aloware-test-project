@@ -5,14 +5,6 @@ const props = defineProps(['comment']);
 const editing = ref(false);
 const replying = ref(false);
 const emit = defineEmits(['modified']);
-
-function deleteComment(id) {
-  axios.delete(`api/comments/${id}`)
-    .then(() => {
-      emit('modified');
-    })
-    .catch(err => console.error(err))
-}
 </script>
 <template>
   <article class="p-6 mb-4 text-base"
@@ -33,11 +25,7 @@ function deleteComment(id) {
           type="button">
           <span>Edit</span>
         </button>
-        <button @click="deleteComment(comment.id)"
-          class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 rounded-lg hover:bg-red-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
-          type="button">
-          <span>Delete</span>
-        </button>
+        <delete-comment @deleted="$emit('modified')" :comment="comment"></delete-comment>
       </div>
     </div>
 

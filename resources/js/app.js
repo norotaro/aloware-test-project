@@ -7,6 +7,7 @@ import Post from "./components/Post.vue";
 import Comment from "./components/Comment.vue";
 import CreateComment from "./components/CreateComment.vue";
 import EditComment from "./components/EditComment.vue";
+import DeleteComment from "./components/DeleteComment.vue";
 
 const app = createApp({});
 
@@ -15,5 +16,6 @@ app.component("post", Post);
 app.component("comment", Comment);
 app.component("create-comment", CreateComment);
 app.component("edit-comment", EditComment);
+app.component("delete-comment", DeleteComment);
 
 app.mount("#app");

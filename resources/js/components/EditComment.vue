@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps(['comment']);
-const emit = defineEmits(['modified']);
+const emit = defineEmits(['modified', 'canceled']);
 
 function editComment(comment) {
     axios.put(`api/comments/${comment.id}`, {
