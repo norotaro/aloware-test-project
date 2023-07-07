@@ -14,7 +14,7 @@ function editComment(comment) {
 </script>
 <template>
     <form @submit.prevent="editComment(comment)">
-        <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-200">
+        <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border border-gray-200 bg-white">
             <label for="comment" class="sr-only">Your comment</label>
             <textarea id="comment" rows="5"
                 class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none" required

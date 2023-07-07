@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('comments', CommentController::class);
+Route::apiResource('comments', CommentController::class)->except(['show']);
