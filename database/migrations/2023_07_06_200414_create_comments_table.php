@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('user', 200);
             $table->text('message');
-            $table->integer('parent_id')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
             $table->integer('level')->default(1);
             $table->timestamps();
         });

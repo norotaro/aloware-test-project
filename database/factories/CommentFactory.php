@@ -27,7 +27,7 @@ class CommentFactory extends Factory
     {
         return $this->afterCreating(function (Comment $comment) {
             if ($comment->level < 3) {
-                $repliesAmmount = fake()->numberBetween(1, 3);
+                $repliesAmmount = fake()->numberBetween(0, 2);
                 Comment::factory($repliesAmmount)->create([
                     'level' => $comment->level + 1,
                     'parent_id' => $comment->id,

@@ -14,6 +14,14 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => $this->user,
+            'message' => $this->message,
+            'level' => $this->level,
+            'date' => $this->created_at,
+            'edited' => $this->edited,
+            'comments' => self::collection($this->comments),
+        ];
     }
 }

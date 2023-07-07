@@ -19,7 +19,8 @@ const emit = defineEmits(['modified']);
           {{ comment.user }}
         </p>
         <p class="text-sm text-gray-600">
-          <time datetime="2023-07-06">{{ (new Date(comment.created_at)).toDateString() }}</time>
+          <time datetime="2023-07-06">{{ (new Date(comment.date)).toUTCString() }}</time>
+          <span v-if="comment.edited" class="text-xs"> (edited)</span>
         </p>
       </div>
       <div v-if="!editing" class="flex">
